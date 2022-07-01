@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import { getPosts } from '../api';
+import { Home } from '../pages';
 function App() {
-  useEffect(async () => {
+  useEffect(() => {
     const fetchPosts = async () => {
       const response = await getPosts();
       console.log('response', response);
@@ -12,7 +13,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>FaceBook Clone</h1>
+      <Home />
     </div>
   );
 }
