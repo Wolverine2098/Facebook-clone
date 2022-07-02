@@ -1,5 +1,5 @@
 import App from './App';
 
-export {
-    App
-}
+import Loader from './Loader';
+
+export { App, Loader };
