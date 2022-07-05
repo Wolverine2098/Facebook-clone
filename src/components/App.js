@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { getPosts } from '../api';
 import { Home, Login } from '../pages';
 import Loader from './Loader';
@@ -11,6 +11,10 @@ const About = () => {
 
 const UserInfo = () => {
   return <h1>UserInfo</h1>;
+};
+
+const Error = () => {
+  return <h1>404 error</h1>;
 };
 
 function App() {
@@ -37,17 +41,17 @@ function App() {
 
   return (
     <div className="App">
-      <Navbar />
       <Router>
-        <Route path="/">
-          <Home posts={posts} />
-        </Route>
-        <Route path="/about">
-          <About />
-        </Route>
-        <Route path="/user/abcd">
-          <UserInfo />
-        </Route>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home posts={posts} />} />
+
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+
+          <Route path="/user/abcd" element={<UserInfo />} />
+          <Route path="*" element={<Error />} />
+        </Routes>
       </Router>
     </div>
   );
