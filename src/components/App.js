@@ -14,7 +14,7 @@ const UserInfo = () => {
 };
 
 const Error = () => {
-  return <h1>404 error</h1>;
+  return <h1>404 errror</h1>;
 };
 
 function App() {
