@@ -34,7 +34,7 @@ const Login = () => {
       <div className={styles.field}>
         <input
           type="email"
-          placeholder="Email"
+          placeholder="Emaiil"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value);
