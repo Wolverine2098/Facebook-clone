@@ -30,7 +30,7 @@ const Login = () => {
   };
   return (
     <form className={styles.loginForm} onSubmit={handleSubmit}>
-      <span className={styles.loginSignupHeader}>log in</span>
+      <span className={styles.loginSignupHeader}>log in </span>
       <div className={styles.field}>
         <input
           type="email"
