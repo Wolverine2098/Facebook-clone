@@ -1,6 +1,13 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../providers/AuthProvider';
+import jwt from 'jwt-decode';
 import { login as userLogin } from '../api';
+import {
+  setItemInLocalStorage,
+  LOCALSTORAGE_TOKEN_KEY,
+  removeItemFromLocalStorage,
+  getItemFromeLocalStorage,
+} from '../utils';
 
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -8,13 +15,27 @@ export const useAuth = () => {
 
 export const useProvideAuth = () => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const userToken = getItemFromeLocalStorage(LOCALSTORAGE_TOKEN_KEY);
+
+    if (userToken) {
+      const user = jwt(userToken);
+      setUser(user);
+    }
+    setLoading(false);
+  }, []);
 
   const login = async (email, password) => {
     const response = await userLogin(email, password);
 
     if (response.success) {
       setUser(response.data.user);
+      setItemInLocalStorage(
+        LOCALSTORAGE_TOKEN_KEY,
+        response.data.token ? response.data.token : null
+      );
       return {
         success: true,
       };
@@ -27,6 +48,7 @@ export const useProvideAuth = () => {
   };
 
   const logout = () => {
+    removeItemFromLocalStorage(LOCALSTORAGE_TOKEN_KEY);
     setUser(null);
   };
 

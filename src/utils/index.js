@@ -1,5 +1,29 @@
 export * from './constants';
 
+export const setItemInLocalStorage = (key, value) => {
+  if (!key || !value) {
+    return console.error('cannot store in LS');
+  }
+
+  const valueToStore = typeof value != 'string' ? JSON.stringify(value) : value;
+  localStorage.setItem(key, valueToStore);
+};
+
+export const getItemFromeLocalStorage = (key) => {
+  if (!key) {
+    return console.error('cannot get key in LS');
+  }
+
+  return localStorage.getItem(key);
+};
+
+export const removeItemFromLocalStorage = (key) => {
+  if (!key) {
+    console.error('cannot get key in LS');
+  }
+
+  localStorage.removeItem(key);
+};
 export const getFormBody = (params) => {
   let formBody = [];
 

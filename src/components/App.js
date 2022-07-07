@@ -4,7 +4,7 @@ import { getPosts } from '../api';
 import { Home, Login } from '../pages';
 import Loader from './Loader';
 import Navbar from './Navbar';
-
+import { useAuth } from '../hooks';
 const About = () => {
   return <h1>About</h1>;
 };
@@ -18,24 +18,25 @@ const Error = () => {
 };
 
 function App() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [posts, setPosts] = useState([]);
+  // const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
+  const auth = useAuth();
+  // useEffect(() => {
+  //   const fetchPosts = async () => {
+  //     const response = await getPosts();
 
-      if (response.success) {
-        setPosts(response.data.posts);
-      }
+  //     if (response.success) {
+  //       setPosts(response.data.posts);
+  //     }
 
-      setLoading(false);
-    };
+  //     setLoading(false);
+  //   };
 
-    fetchPosts();
-  }, []);
+  //   fetchPosts();
+  // }, []);
 
-  if (loading) {
+  if (auth.loading) {
     return <Loader />;
   }
 
@@ -44,7 +45,7 @@ function App() {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Home posts={posts} />} />
+          <Route path="/" element={<Home />} />
 
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
