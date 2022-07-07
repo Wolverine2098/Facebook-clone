@@ -42,7 +42,7 @@ const Navbar = () => {
                 </li>
 
                 <li>
-                  <a href="/">Register</a>
+                  <a href="/register">Register</a>
                 </li>
               </>
             )}

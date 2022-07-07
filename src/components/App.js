@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { getPosts } from '../api';
-import { Home, Login } from '../pages';
+import { Home, Login, Signup } from '../pages';
 import Loader from './Loader';
 import Navbar from './Navbar';
+
 import { useAuth } from '../hooks';
 const About = () => {
   return <h1>About</h1>;
@@ -49,6 +50,7 @@ function App() {
 
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Signup />} />
 
           <Route path="/user/abcd" element={<UserInfo />} />
           <Route path="*" element={<Error />} />
