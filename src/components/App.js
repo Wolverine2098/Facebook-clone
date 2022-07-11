@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { getPosts } from '../api';
-import { Home, Login, Signup } from '../pages';
+import { Home, Login, Signup, Settings } from '../pages';
 import Loader from './Loader';
 import Navbar from './Navbar';
 
@@ -51,6 +51,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Signup />} />
+          <Route path="/settings" element={<Settings />} />
 
           <Route path="/user/abcd" element={<UserInfo />} />
           <Route path="*" element={<Error />} />
