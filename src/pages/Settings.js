@@ -1,5 +1,5 @@
 import { useState } from 'react';
-
+import { useToasts } from 'react-toast-notifications';
 import styles from '../styles/settings.module.css';
 import { useAuth } from '../hooks';
 
@@ -10,14 +10,62 @@ const Settings = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [savingForm, setSavingForm] = useState(false);
+  const { addToast } = useToasts();
+  const clearForm = () => {
+    setPassword('');
+    setConfirmPassword('');
+  };
 
-  const updateProfile = () => {};
+  const updateProfile = async () => {
+    setSavingForm(true);
+
+    let error = false;
+    if (!name || !password || !confirmPassword) {
+      addToast('Please fill all the fields', {
+        appearance: 'error',
+      });
+
+      error = true;
+    }
+
+    if (password !== confirmPassword) {
+      addToast('Password don`t match', {
+        appearance: 'error',
+      });
+
+      error = true;
+    }
+
+    if (error) {
+      return setSavingForm(false);
+    }
+
+    const response = await auth.updateUser(
+      auth.user._id,
+      name,
+      password,
+      confirmPassword
+    );
+    if (response.success) {
+      setEditMode(false);
+      setSavingForm(false);
+
+      return addToast('user update success', {
+        appearance: 'success',
+      });
+    } else {
+      addToast(response.message, {
+        appearance: 'error',
+      });
+    }
+    setSavingForm(false);
+  };
 
   return (
     <div className={styles.settings}>
       <div className={styles.imgContainer}>
         <img
-          src="https://image.flaticon.com/icons/svg/2154/2154651.svg"
+          src="https://cdn-icons-png.flaticon.com/512/428/428933.png"
           alt=""
         />
       </div>
@@ -36,7 +84,7 @@ const Settings = () => {
             onChange={(e) => setName(e.target.value)}
           />
         ) : (
-          <div className={styles.fieldValue}>{auth.user?.email}</div>
+          <div className={styles.fieldValue}>{auth.user?.name}</div>
         )}
       </div>
 
@@ -68,6 +116,7 @@ const Settings = () => {
             <button
               className={`button ${styles.saveBtn}`}
               onClick={updateProfile}
+              disabled={savingForm}
             >
               {savingForm ? 'Saving profile...' : 'Save profile'}
             </button>
