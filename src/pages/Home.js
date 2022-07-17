@@ -41,16 +41,15 @@ const Home = () => {
               />
               <div>
                 <Link
-                  to={{
-                    pathname: `/user/${post.user._id}`,
-                    state: {
-                      user: post.user,
-                    },
+                  to={`/user/${post.user._id}`}
+                  state={{
+                    user: post.user,
                   }}
                   className={styles.postAuthor}
                 >
                   {post.user.name}
                 </Link>
+
                 <span className={styles.postTime}>a minute ago</span>
               </div>
             </div>

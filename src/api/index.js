@@ -1,14 +1,14 @@
-import { API_URLS, LOCALSTORAGE_TOKEN_KEY, getFormBody } from '../utils';
+import { API_URLS, getFormBody, LOCALSTORAGE_TOKEN_KEY } from '../utils';
+
 const customFetch = async (url, { body, ...customConfig }) => {
   const token = window.localStorage.getItem(LOCALSTORAGE_TOKEN_KEY);
 
   const headers = {
-    'content-type': 'application/x-www-form-urlencoded', //this will return form url encoded data
-    Accept: 'application/json',
+    'content-type': 'application/x-www-form-urlencoded',
   };
 
   if (token) {
-    headers.Authorization = `Bearer $(token)`;
+    headers.Authorization = `Bearer ${token}`;
   }
 
   const config = {
@@ -18,6 +18,7 @@ const customFetch = async (url, { body, ...customConfig }) => {
       ...customConfig.headers,
     },
   };
+
   if (body) {
     config.body = getFormBody(body);
   }
@@ -25,16 +26,17 @@ const customFetch = async (url, { body, ...customConfig }) => {
   try {
     const response = await fetch(url, config);
     const data = await response.json();
+
     if (data.success) {
       return {
         data: data.data,
         success: true,
       };
     }
+
     throw new Error(data.message);
   } catch (error) {
     console.error('error');
-
     return {
       message: error.message,
       success: false,
@@ -66,5 +68,11 @@ export const editProfile = async (userId, name, password, confirmPassword) => {
   return customFetch(API_URLS.editUser(), {
     method: 'POST',
     body: { id: userId, name, password, confirm_password: confirmPassword },
+  });
+};
+
+export const fetchUserProfile = (userId) => {
+  return customFetch(API_URLS.userInfo(userId), {
+    method: 'GET',
   });
 };
