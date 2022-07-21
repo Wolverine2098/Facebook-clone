@@ -7,28 +7,14 @@ import { getPosts } from '../api';
 import Loader from '../components/Loader';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useAuth } from '../hooks';
+import { useAuth, usePosts } from '../hooks';
 import FriendsList from '../components/FriendsList';
 
 const Home = () => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
   const auth = useAuth();
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const response = await getPosts();
+  const posts = usePosts();
 
-      if (response.success) {
-        setPosts(response.data.posts);
-      }
-
-      setLoading(false);
-    };
-
-    fetchPosts();
-  }, []);
-
-  if (loading) {
+  if (posts.loading) {
     return <Loader />;
   }
 
@@ -37,7 +23,7 @@ const Home = () => {
     <div className={styles.home}>
       <div className={styles.postsList}>
         <CreatePost />
-        {posts.map((post) => (
+        {posts.data.map((post) => (
           <div className={styles.postWrapper} key={`post-${post._id}`}>
             <div className={styles.postHeader}>
               <div className={styles.postAvatar}>
@@ -59,7 +45,7 @@ const Home = () => {
                   <span className={styles.postTime}>a minute ago</span>
                 </div>
               </div>
-              <div className={styles.postContent}>{post.conent}</div>
+              <div className={styles.postContent}>{post.content}</div>
 
               <div className={styles.postActions}>
                 <div className={styles.postLike}>
@@ -67,7 +53,7 @@ const Home = () => {
                     src="https://cdn-icons-png.flaticon.com/512/1077/1077035.png"
                     alt="likes-icon"
                   />
-                  <span>5</span>
+                  <span>{post.likes.length}</span>
                 </div>
 
                 <div className={styles.postCommentsIcon}>

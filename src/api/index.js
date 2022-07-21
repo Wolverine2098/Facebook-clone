@@ -88,3 +88,12 @@ export const addFriend = (userId) => {
     method: 'POST',
   });
 };
+
+export const addPost = (content) => {
+  return customFetch(API_URLS.createPost(content), {
+    method: 'POST',
+    body: {
+      content,
+    },
+  });
+};

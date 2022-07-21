@@ -1,9 +1,31 @@
 import styles from '../styles/home.module.css';
 import { useState } from 'react';
+import { addPost } from '../api';
+import { usePosts } from '../hooks';
+import { useToasts } from 'react-toast-notifications';
 const CreatePost = () => {
   const [post, setPost] = useState('');
   const [addingPost, setAddingPost] = useState(false);
-  const handleAddPostClick = () => {};
+  const { addToast } = useToasts();
+  const posts = usePosts();
+  const handleAddPostClick = async () => {
+    setAddingPost(true);
+    console.log(post);
+    const response = await addPost(post);
+
+    if (response.success) {
+      setPost('');
+      addToast('Post Created successfully', {
+        appearance: 'success',
+      });
+    } else {
+      addToast(response.message, {
+        appearance: 'error',
+      });
+    }
+
+    setAddingPost(false);
+  };
   return (
     <div className={styles.createPost}>
       <textarea
