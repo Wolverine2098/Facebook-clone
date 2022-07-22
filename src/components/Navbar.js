@@ -1,11 +1,13 @@
 import styles from '../styles/navbar.module.css';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../hooks';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { searchUsers } from '../api';
 const Navbar = () => {
   const [results, setResults] = useState([]);
   const [searchText, setSearchText] = useState('');
+
+  const myCont = useRef(null);
 
   useEffect(() => {
     const fetchusers = async () => {
@@ -50,6 +52,7 @@ const Navbar = () => {
             <ul>
               {results.map((user) => (
                 <li
+                  ref={myCont}
                   className={styles.searchResultsRow}
                   key={`user-${user._id}`}
                 >
